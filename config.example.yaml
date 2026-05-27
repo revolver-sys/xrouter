@@ -1,0 +1,58 @@
+# xrouter example configuration
+#
+# This file is public-safe and intentionally uses documentation-only
+# placeholder addresses. Do not commit real server IPs, private keys,
+# UUIDs, tokens, domains, or local operational secrets.
+
+# Host interfaces.
+# Adjust these for the gateway machine.
+wan_if: "en7"
+lan_if: "en5"
+
+# Gateway control scripts.
+# These scripts apply host-level interface, forwarding, DNS/DHCP, and pf policy.
+gateway_setup_path: "./scripts/gateway_setup.sh"
+gateway_pf_apply_path: "./scripts/gateway_pf_apply.sh"
+gateway_down_path: "./scripts/gateway_down.sh"
+
+# Health check.
+# The watchdog uses this endpoint to verify that the configured secure path is alive.
+health_check_url: "https://api.ipify.org?format=text"
+check_interval: 10s
+health_timeout: 5s
+failure_threshold: 3
+recover_cooldown: 5s
+max_recoveries: 5
+
+# Script/process command timeout.
+command_timeout: 20s
+
+# Current TUN transport backend.
+# The current implementation supervises an external TUN transport process.
+# Future stages will generalize this into pluggable proxy and tunnel backends.
+transport_path: "/path/to/transport/backend"
+transport_config_path: "/path/to/transport/config.json"
+
+transport_auto_start: true
+transport_auto_stop: true
+transport_adopt_external: true
+transport_start_timeout: 8s
+transport_stop_timeout: 8s
+
+# Runtime files for the supervised transport process.
+transport_pid_file: "/path/to/runtime/transport.pid"
+transport_log_file: "/path/to/runtime/transport.log"
+
+# Fail-closed WAN allowlist.
+# These are documentation-only placeholder addresses.
+# Real transport server IPs belong only in a private local config file.
+transport_server_ips:
+  - "203.0.113.10"
+
+# Optional WAN DNS allowlist for controlled resolver access.
+wan_dns_ips:
+  - "1.1.1.1"
+  - "8.8.8.8"
+
+# Optional WAN NTP allowance.
+allow_wan_ntp: true

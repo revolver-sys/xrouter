@@ -1,0 +1,17 @@
+# Docker backend isolation lab for xrouter.
+#
+# This file is intentionally public-safe. It does not contain real transport
+# server addresses, private keys, UUIDs, domains, tokens, or operational secrets.
+#
+# The first goal is to define the service boundary:
+#
+#   backend container -> local endpoint -> xrouter transport path / health checks
+#
+# A real backend image/config can be added later in a private local override file.
+
+services:
+  backend-placeholder:
+    image: alpine:3.20
+    container_name: xrouter-backend-placeholder
+    command: ["sh", "-c", "while true; do echo 'xrouter backend placeholder alive'; sleep 30; done"]
+    restart: unless-stopped
